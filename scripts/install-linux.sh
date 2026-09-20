@@ -17,16 +17,27 @@ if [[ ! -d "${ROOT}/ui/dist" ]]; then
 fi
 
 ICON_SRC="$ROOT/assets/shadow-mission-control.svg"
-mkdir -p "$PREFIX/icons/hicolor/scalable/apps"
-cp "$ICON_SRC" "$PREFIX/icons/hicolor/scalable/apps/shadow-mission-control.svg"
+ICON_DIR="$ROOT/assets/icons"
+HICOLOR="$PREFIX/icons/hicolor"
 
-if command -v rsvg-convert >/dev/null 2>&1; then
-  for size in 16 22 24 32 48 64 128 256 512; do
-    dest="$PREFIX/icons/hicolor/${size}x${size}/apps"
-    mkdir -p "$dest"
+mkdir -p "$HICOLOR/scalable/apps"
+cp "$ICON_SRC" "$HICOLOR/scalable/apps/shadow-mission-control.svg"
+
+# Prebuilt PNGs ship in the repo so the menu/taskbar icon works without rsvg-convert.
+# rsvg-convert is only a fallback if a size is missing from assets/icons.
+for size in 16 22 24 32 48 64 96 128 256 512; do
+  dest="$HICOLOR/${size}x${size}/apps"
+  mkdir -p "$dest"
+  prebuilt="$ICON_DIR/${size}x${size}/shadow-mission-control.png"
+  if [[ -f "$prebuilt" ]]; then
+    cp "$prebuilt" "$dest/shadow-mission-control.png"
+  elif command -v rsvg-convert >/dev/null 2>&1; then
     rsvg-convert -w "$size" -h "$size" "$ICON_SRC" -o "$dest/shadow-mission-control.png"
-  done
-fi
+  fi
+done
+
+mkdir -p "$PREFIX/pixmaps"
+cp "$ROOT/assets/shadow-mission-control.png" "$PREFIX/pixmaps/shadow-mission-control.png"
 
 mkdir -p "$PREFIX/applications"
 sed "s|^Exec=.*|Exec=${BIN}/shadow-mission-control|; s|^TryExec=.*|TryExec=${BIN}/shadow-mission-control|" \

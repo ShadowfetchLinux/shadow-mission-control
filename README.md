@@ -1,5 +1,7 @@
 # Shadow Mission Control
 
+<img src="assets/icons/128x128/shadow-mission-control.png" width="128" height="128" alt="Shadow Mission Control">
+
 ![version](https://img.shields.io/badge/version-1.0.0-black) ![python](https://img.shields.io/badge/python-3.10%2B-blue) ![license](https://img.shields.io/badge/license-MIT-green)
 
 Local-only mission-control HUD for a Linux workstation. Dark chrome, live telemetry, no cloud calls.

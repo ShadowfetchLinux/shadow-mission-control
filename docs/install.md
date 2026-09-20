@@ -20,7 +20,7 @@ The installer:
 
 1. Writes `~/.local/bin/shadow-mission-control`
 2. Builds `ui/dist` if it is missing
-3. Installs the icon and desktop entry under `~/.local/share`
+3. Installs the icon (SVG plus PNG sizes from `assets/icons`) and desktop entry under `~/.local/share`
 
 Make sure `~/.local/bin` is on your `PATH`.
 
@@ -48,6 +48,9 @@ Then open <http://127.0.0.1:7420>.
 ```bash
 rm -f ~/.local/bin/shadow-mission-control
 rm -f ~/.local/share/applications/shadow-mission-control.desktop
+rm -f ~/.local/share/pixmaps/shadow-mission-control.png
+rm -f ~/.local/share/icons/hicolor/scalable/apps/shadow-mission-control.svg
+rm -f ~/.local/share/icons/hicolor/*/apps/shadow-mission-control.png
 rm -rf ~/.local/state/shadow-mission-control
 ```
 

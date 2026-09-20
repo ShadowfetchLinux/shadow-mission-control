@@ -111,6 +111,10 @@ class Handler(BaseHTTPRequestHandler):
         if dest.is_dir():
             dest = dest / "index.html"
         if not dest.is_file():
+            # Missing assets (favicon.ico, JS/CSS) must 404, not return HUD HTML.
+            if Path(rel).suffix:
+                self.send_error(404)
+                return
             dest = root / "index.html"
         if not dest.is_file():
             self.send_error(404)
