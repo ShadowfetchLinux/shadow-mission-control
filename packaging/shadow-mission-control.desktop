@@ -1,0 +1,15 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Shadow Mission Control
+GenericName=System HUD
+Comment=Live GPU, models, and machine telemetry
+Exec=shadow-mission-control
+TryExec=shadow-mission-control
+Icon=shadow-mission-control
+Terminal=false
+Categories=System;Monitor;
+Keywords=gpu;nvidia;docker;ollama;metrics;hud;shadowfetch;
+StartupNotify=true
+StartupWMClass=shadow-mission-control
+X-GNOME-UsesNotifications=false

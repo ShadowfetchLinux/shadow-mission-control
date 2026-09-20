@@ -1,0 +1,68 @@
+#!/usr/bin/env bash
+# Shadow Mission Control launcher — starts the local HUD and opens a desktop window.
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+PORT="${SMC_PORT:-7420}"
+URL="http://127.0.0.1:${PORT}"
+STATE="${XDG_STATE_HOME:-$HOME/.local/state}/shadow-mission-control"
+PROFILE="${STATE}/chrome-profile"
+LOG="${STATE}/server.log"
+PIDFILE="${STATE}/server.pid"
+
+mkdir -p "$STATE" "$PROFILE"
+
+is_up() {
+  curl -fsS --connect-timeout 1 "${URL}/api/health" >/dev/null 2>&1
+}
+
+start_server() {
+  if [[ ! -d "${ROOT}/ui/dist" ]]; then
+    echo "Building HUD…" >&2
+    (cd "${ROOT}/ui" && npm install --no-fund --no-audit && npm run build)
+  fi
+  nohup python3 "${ROOT}/server/app.py" --port "$PORT" >>"$LOG" 2>&1 &
+  echo $! >"$PIDFILE"
+  for _ in $(seq 1 40); do
+    if is_up; then
+      return 0
+    fi
+    sleep 0.15
+  done
+  echo "Shadow Mission Control failed to start. See ${LOG}" >&2
+  exit 1
+}
+
+if [[ "${1:-}" == "--no-browser" ]]; then
+  is_up || start_server
+  echo "$URL"
+  exit 0
+fi
+
+is_up || start_server
+
+BROWSER=""
+for cand in brave-browser brave-browser-stable brave chromium-browser chromium google-chrome-stable google-chrome firefox; do
+  if command -v "$cand" >/dev/null 2>&1; then
+    BROWSER="$cand"
+    break
+  fi
+done
+
+if [[ -z "$BROWSER" ]]; then
+  exec xdg-open "$URL"
+fi
+
+if [[ "$BROWSER" == firefox ]]; then
+  exec firefox --new-window "$URL"
+fi
+
+exec "$BROWSER" \
+  --app="$URL" \
+  --user-data-dir="$PROFILE" \
+  --class=shadow-mission-control \
+  --window-size=1400,900 \
+  --window-name="Shadow Mission Control" \
+  --no-first-run \
+  --no-default-browser-check \
+  --disable-sync
