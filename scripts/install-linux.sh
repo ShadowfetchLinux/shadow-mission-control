@@ -47,7 +47,10 @@ if command -v update-desktop-database >/dev/null 2>&1; then
   update-desktop-database "$PREFIX/applications" >/dev/null 2>&1 || true
 fi
 if command -v gtk-update-icon-cache >/dev/null 2>&1; then
-  gtk-update-icon-cache -q "$PREFIX/icons/hicolor" >/dev/null 2>&1 || true
+  gtk-update-icon-cache -f -t -q "$PREFIX/icons/hicolor" >/dev/null 2>&1 || true
+fi
+if command -v xdg-desktop-menu >/dev/null 2>&1; then
+  xdg-desktop-menu forceupdate >/dev/null 2>&1 || true
 fi
 
 echo "Installed shadow-mission-control → ${BIN}/shadow-mission-control"

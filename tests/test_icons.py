@@ -47,12 +47,25 @@ def test_readme_shows_icon() -> None:
     assert "assets/icons/128x128/shadow-mission-control.png" in readme
 
 
+def test_social_preview_is_1280x640() -> None:
+    import struct
+
+    path = ROOT / "assets" / "social-preview.png"
+    data = path.read_bytes()
+    assert data[:8] == b"\x89PNG\r\n\x1a\n"
+    assert data[12:16] == b"IHDR"
+    width, height = struct.unpack(">II", data[16:24])
+    assert (width, height) == (1280, 640)
+    assert path.stat().st_size < 1_000_000
+
+
 def test_installer_copies_prebuilt_pngs_without_rsvg() -> None:
     script = (ROOT / "scripts" / "install-linux.sh").read_text(encoding="utf-8")
     assert 'prebuilt="$ICON_DIR/${size}x${size}/shadow-mission-control.png"' in script
     assert 'if [[ -f "$prebuilt" ]]; then' in script
     assert "elif command -v rsvg-convert" in script
     assert "$PREFIX/pixmaps" in script
+    assert "gtk-update-icon-cache -f -t" in script
     sizes = script.split("for size in", 1)[1].split(";", 1)[0]
     for size in SIZES:
         assert str(size) in sizes

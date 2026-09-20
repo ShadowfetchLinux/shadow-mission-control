@@ -55,3 +55,7 @@ rm -rf ~/.local/state/shadow-mission-control
 ```
 
 Remove the clone when you no longer want the source.
+
+## GitHub social preview
+
+`assets/social-preview.png` is a 1280×640 Open Graph image. GitHub does not pick it up from the repo automatically. A maintainer must upload it under **Settings → Social preview**.
