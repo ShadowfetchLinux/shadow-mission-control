@@ -22,8 +22,8 @@ classifiers = [
 shadow-mission-control-server = "server.app:main"
 
 [project.urls]
-Homepage = "https://github.com/ShadowfetchLinux/shadow-mission-control"
-Documentation = "https://github.com/ShadowfetchLinux/shadow-mission-control#readme"
+Homepage = "https://github.com/Shadowfetchapps/shadow-mission-control"
+Documentation = "https://github.com/Shadowfetchapps/shadow-mission-control#readme"
 
 [tool.setuptools.packages.find]
 include = ["server*"]
