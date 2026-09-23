@@ -32,7 +32,7 @@ Missing Docker or `nvidia-smi` is reported in-panel. The rest of the HUD keeps u
 Requires Python 3.10+ and, for the first UI build, Node.js.
 
 ```bash
-git clone https://github.com/ShadowfetchLinux/shadow-mission-control.git
+git clone https://github.com/Shadowfetchapps/shadow-mission-control.git
 cd shadow-mission-control
 ./scripts/install-linux.sh
 ```

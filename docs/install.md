@@ -10,7 +10,7 @@
 ## One-shot
 
 ```bash
-git clone https://github.com/ShadowfetchLinux/shadow-mission-control.git
+git clone https://github.com/Shadowfetchapps/shadow-mission-control.git
 cd shadow-mission-control
 chmod +x scripts/install-linux.sh scripts/shadow-mission-control
 ./scripts/install-linux.sh
